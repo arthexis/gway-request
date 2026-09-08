@@ -45,7 +45,7 @@ def github_repo(path: Path) -> str:
     if not match:
         raise ValueError(f"origin is not a supported GitHub remote: {remote}")
     repo = match.group("repo")
-    return repo[:-4] if repo.endswith(".git") else repo
+    return repo.removesuffix(".git")
 
 
 def split_issue_text(text: str) -> tuple[str, str | None]:
