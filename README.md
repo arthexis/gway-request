@@ -10,6 +10,14 @@ gway install request
 
 ## Create an issue
 
+`issue` is the project's default command, so it can be omitted:
+
+```bash
+gway request lcd "LCD write fails after stopping legacy service"
+```
+
+The explicit form remains valid:
+
 ```bash
 gway request issue lcd "LCD write fails after stopping legacy service"
 ```
