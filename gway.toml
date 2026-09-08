@@ -1,0 +1,7 @@
+[project]
+name = "request"
+aliases = ["gway-request"]
+
+[adapter]
+type = "python"
+module = "gway_request.commands"
