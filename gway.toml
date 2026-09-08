@@ -1,6 +1,7 @@
 [project]
 name = "request"
 aliases = ["gway-request"]
+default = "issue"
 
 [adapter]
 type = "python"
