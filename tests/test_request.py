@@ -23,6 +23,34 @@ def test_split_issue_text_rejects_empty():
         core.split_issue_text("  \n")
 
 
+def test_project_path_resolves_gway_from_active_executable(tmp_path, monkeypatch):
+    checkout = tmp_path / "gway"
+    executable = checkout / "venv" / "bin" / "gway"
+    executable.parent.mkdir(parents=True)
+    executable.touch()
+    (checkout / "gway.toml").write_text("[project]\nname = 'gway'\n")
+    (checkout / ".git").mkdir()
+
+    monkeypatch.setattr(core.shutil, "which", lambda name: str(executable))
+
+    assert core.project_path("gway") == checkout
+
+
+def test_project_path_uses_gway_path_for_registered_project(tmp_path, monkeypatch):
+    checkout = tmp_path / "gway-lcd"
+    checkout.mkdir()
+    seen = {}
+
+    def fake_run(command, **kwargs):
+        seen.update(command=command, kwargs=kwargs)
+        return SimpleNamespace(stdout=f"{checkout}\n")
+
+    monkeypatch.setattr(core.subprocess, "run", fake_run)
+
+    assert core.project_path("lcd") == checkout
+    assert seen["command"] == ["gway", "path", "lcd"]
+
+
 def test_github_repo_https(monkeypatch):
     monkeypatch.setattr(
         core.subprocess,
