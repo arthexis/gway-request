@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import json
 import os
-from pathlib import Path
 import re
 import shutil
 import subprocess
 import urllib.error
 import urllib.request
+from pathlib import Path
 
 
 _GITHUB_REMOTE_RE = re.compile(
