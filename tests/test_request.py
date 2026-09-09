@@ -46,7 +46,9 @@ def test_github_repo_ssh(monkeypatch):
 
 
 def test_issue_resolves_project_and_creates(monkeypatch):
-    monkeypatch.setattr("gway_request.commands.project_path", lambda project: Path("/repo"))
+    monkeypatch.setattr(
+        "gway_request.commands.project_path", lambda project: Path("/repo")
+    )
     monkeypatch.setattr(
         "gway_request.commands.github_repo", lambda path: "arthexis/gway-lcd"
     )

@@ -9,7 +9,6 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-
 _GITHUB_REMOTE_RE = re.compile(
     r"^(?:https://github\.com/|git@github\.com:)(?P<repo>[^/]+/[^/]+?)(?:\.git)?$"
 )
@@ -45,7 +44,7 @@ def github_repo(path: Path) -> str:
     if not match:
         raise ValueError(f"origin is not a supported GitHub remote: {remote}")
     repo = match.group("repo")
-    return repo[:-4] if repo.endswith(".git") else repo
+    return repo.removesuffix(".git")
 
 
 def split_issue_text(text: str) -> tuple[str, str | None]:
@@ -94,5 +93,7 @@ def create_issue(repo: str, title: str, body: str | None = None) -> str:
             data = json.load(response)
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode(errors="replace")
-        raise RuntimeError(f"GitHub issue creation failed ({exc.code}): {detail}") from exc
+        raise RuntimeError(
+            f"GitHub issue creation failed ({exc.code}): {detail}"
+        ) from exc
     return str(data["html_url"])
