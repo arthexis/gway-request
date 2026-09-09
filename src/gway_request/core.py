@@ -93,5 +93,7 @@ def create_issue(repo: str, title: str, body: str | None = None) -> str:
             data = json.load(response)
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode(errors="replace")
-        raise RuntimeError(f"GitHub issue creation failed ({exc.code}): {detail}") from exc
+        raise RuntimeError(
+            f"GitHub issue creation failed ({exc.code}): {detail}"
+        ) from exc
     return str(data["html_url"])
