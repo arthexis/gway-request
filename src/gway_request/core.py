@@ -14,8 +14,26 @@ _GITHUB_REMOTE_RE = re.compile(
 )
 
 
+def _gway_checkout_path() -> Path:
+    """Resolve the checkout containing the active Gway executable."""
+    executable = shutil.which("gway")
+    if not executable:
+        raise RuntimeError("cannot locate the active gway executable")
+
+    for parent in Path(executable).resolve().parents:
+        if (parent / "gway.toml").is_file() and (parent / ".git").exists():
+            return parent
+
+    raise RuntimeError(
+        "cannot locate the Gway checkout from the active gway executable"
+    )
+
+
 def project_path(project: str) -> Path:
     """Resolve an installed Gway project to its managed checkout path."""
+    if project == "gway":
+        return _gway_checkout_path()
+
     result = subprocess.run(
         ["gway", "path", project],
         check=True,
