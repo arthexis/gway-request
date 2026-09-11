@@ -7,7 +7,7 @@ name = "gway-request"
 version = "0.1.0"
 description = "Gway helpers for creating GitHub issues for installed projects"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 license = "MIT"
 authors = [
   { name = "Rafael J. Guillén-Osorio" },
@@ -27,5 +27,5 @@ where = ["src"]
 testpaths = ["tests"]
 
 [tool.ruff]
-target-version = "py311"
+target-version = "py310"
 line-length = 88
